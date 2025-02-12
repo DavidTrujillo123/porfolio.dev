@@ -1,0 +1,21 @@
+---
+import ExperienceItem from "@/components/ExperienceItem.astro"
+import type {ExperienceItemProps} from "@/components/componetCosmic/utils/CosmicTypes"
+
+
+interface Props{
+  experiences: ExperienceItemProps[]
+}
+
+const {experiences} = Astro.props
+---
+
+<ol class="relative mt-16">
+  {
+    experiences.map((experience) => (
+      <li class="">
+        <ExperienceItem {...experience} />
+      </li>
+    ))
+  }
+</ol>

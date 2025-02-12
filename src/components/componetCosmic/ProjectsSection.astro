@@ -1,0 +1,21 @@
+---
+import Projects from "./Projects.astro";
+import SectionContainer from "../SectionContainer.astro";
+import TitleSection from "../TitleSection.astro";
+import CodeIcon from "@/components/icons/Code.astro";
+
+interface Props{
+  title: string
+  list_projects: any
+}
+
+const { title, list_projects} = Astro.props
+---
+
+<SectionContainer id="proyectos">
+  <TitleSection>
+    <CodeIcon class="size-7" />
+    {title}
+  </TitleSection>
+  <Projects list_projects={list_projects}/>
+</SectionContainer>

@@ -1,0 +1,26 @@
+---
+import AboutMe from "./AboutMe.astro";
+import ProfileCheck from "../icons/ProfileCheck.astro";
+import SectionContainer from "../SectionContainer.astro";
+import TitleSection from "../TitleSection.astro";
+import type { ImageProps } from "./utils/CosmicTypes";
+
+interface Props{
+  title: string
+  content: string
+  image: ImageProps
+}
+
+const {title, content, image} = Astro.props
+---
+
+<SectionContainer id="sobre-mi">
+  <TitleSection>
+    <ProfileCheck class="size-8" />
+    {title}
+  </TitleSection>
+  <AboutMe 
+    content={content} 
+    image={image}
+  />
+</SectionContainer>

@@ -1,0 +1,23 @@
+---
+import SectionContainer from "@/components/SectionContainer.astro";
+import TitleSection from "../TitleSection.astro";
+import Briefcase from "../icons/Briefcase.astro";
+import Experience from "./Experience.astro";
+import type { ExperienceItemProps } from "./utils/CosmicTypes";
+
+
+interface Props{
+  title: string,
+  experience: ExperienceItemProps[]
+}
+
+const {title, experience} = Astro.props
+---
+
+<SectionContainer id="experiencia">
+  <TitleSection>
+    <Briefcase class="size-8" />
+    {title}
+  </TitleSection>
+  <Experience experiences={experience}/>
+</SectionContainer>

@@ -1,0 +1,52 @@
+---
+import Badge from "@/components/Badge.astro";
+import MailIcon from "@/components/icons/Mail.astro";
+import SocialPill from "@/components/SocialPill.astro";
+import type {HeroProps} from "@/components/componetCosmic/utils/CosmicTypes"
+import {socialIcons} from "@/components/componetCosmic/utils/IconsCosmic"
+
+interface Props{
+  hero: HeroProps
+}
+
+const { hero } = Astro.props;
+const {image_hero, linkdin_url, linkedin_text, social_pill, info, title} = hero
+---
+
+<div class="max-w-xl">
+  <div class="flex gap-4 mb-4">
+    <img
+      class="rounded-full shadow-lg size-16"
+      src={image_hero.imgix_url}
+      alt={image_hero.alt_text}
+    />
+    <a
+      href={linkdin_url}
+      target="_blank"
+      rel="noopener"
+      class="flex items-center transition md:justify-center md:hover:scale-105"
+    >
+      <Badge>{linkedin_text}</Badge>
+    </a>
+  </div>
+  <h1
+    class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
+  >
+    {title}
+  </h1>
+  <div
+    class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-yellow-200 [&>strong]:text-yellow-500 [&>strong]:font-semibold dark:text-gray-300"
+    set:html={info}
+  />
+  <nav class="flex flex-wrap gap-4 mt-8">
+    {social_pill.map((social) => {
+      const IconComponent = socialIcons[social.icon.value] || MailIcon;
+      return (
+        <SocialPill href={social.url}>
+          <IconComponent class="size-4" />
+          {social.text}
+        </SocialPill>
+      );
+    })}
+  </nav>
+</div>
