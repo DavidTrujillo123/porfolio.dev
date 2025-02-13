@@ -1,17 +1,17 @@
 ---
-import "@fontsource-variable/onest"
-import '@/styles/global.css'
+import "@fontsource-variable/onest";
+import "@/styles/global.css";
 
-import Header from "../components/Header.astro"
-import Footer from "../components/Footer.astro"
-import { ClientRouter } from "astro:transitions"
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
-  title: string
-  description: string
+  title: string;
+  description: string;
 }
 
-const { description, title } = Astro.props
+const { description, title } = Astro.props;
 ---
 
 <!doctype html>
@@ -27,12 +27,13 @@ const { description, title } = Astro.props
   </head>
 
   <body class="relative text-black dark:text-white">
-    <div class="inset-0 -z-10 h-screen fixed w-full items-center px-5 py-24 bg-gray-50 dark:bg-gray-950
+    <div
+      class="inset-0 -z-10 h-screen fixed w-full items-center px-5 py-24 bg-gray-50 dark:bg-gray-950 animate-gradient
       bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
-      dark:[background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]
-      ">
+      dark:[background:radial-gradient(125%_125%_at_50%_10%,#030712_40%,#63e_100%)]"
+    >
     </div>
-    
+
     <!-- <div
       class="absolute top-0 bottom-0 z-[-2] min-h-screen w-full bg-gray-50 dark:bg-gray-950
       bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
@@ -116,6 +117,19 @@ const { description, title } = Astro.props
             border-radius: 9999px;
           }
         }
+      }
+      @keyframes gradientMove {
+        0% {
+          background-position: 50% 0%;
+        }
+        100% {
+          background-position: 50% 100%;
+        }
+      }
+
+      .animate-gradient {
+        background-size: 150% 150%;
+        animation: gradientMove 6s ease-in-out infinite alternate;
       }
     </style>
   </body>
