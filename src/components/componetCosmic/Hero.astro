@@ -10,7 +10,7 @@ interface Props{
 }
 
 const { hero } = Astro.props;
-const {image_hero, linkdin_url, linkedin_text, social_pill, info, title} = hero
+const {image_hero, linkedin_url, linkedin_text, social_pill, info, title} = hero
 ---
 
 <div class="max-w-xl">
@@ -21,7 +21,7 @@ const {image_hero, linkdin_url, linkedin_text, social_pill, info, title} = hero
       alt={image_hero.alt_text}
     />
     <a
-      href={linkdin_url}
+      href={linkedin_url}
       target="_blank"
       rel="noopener"
       class="flex items-center transition md:justify-center md:hover:scale-105"

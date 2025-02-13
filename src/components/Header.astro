@@ -20,7 +20,7 @@ const navItems = [
   {
     title: "Contacto",
     label: "contacto",
-    url: "mailto:miduga@gmail.com",
+    url: "mailto:davot098@gmail.com",
   },
 ];
 ---
@@ -52,12 +52,12 @@ const navItems = [
     const nav = document.querySelector("header nav"); // Seleccionamos el nav
 
     const updateNavClasses = (isScrolled: boolean) => {
-      nav.classList.toggle("dark:bg-gray-800/90", isScrolled);
-      nav.classList.toggle("bg-white/50", isScrolled);
-      nav.classList.toggle("shadow-lg", isScrolled);
-      nav.classList.toggle("backdrop-blur", isScrolled);
-      nav.classList.toggle("ring-1", isScrolled);
-      nav.classList.toggle("ring-white/10", isScrolled);
+      nav?.classList.toggle("dark:bg-gray-800/90", isScrolled);
+      nav?.classList.toggle("bg-white/50", isScrolled);
+      nav?.classList.toggle("shadow-lg", isScrolled);
+      nav?.classList.toggle("backdrop-blur", isScrolled);
+      nav?.classList.toggle("ring-1", isScrolled);
+      nav?.classList.toggle("ring-white/10", isScrolled);
     };
 
     const handleScroll = () => {

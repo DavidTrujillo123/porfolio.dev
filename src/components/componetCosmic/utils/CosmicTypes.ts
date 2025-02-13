@@ -8,7 +8,7 @@ export interface ImageProps {
 
 export interface HeroProps {
   image_hero: ImageProps
-  linkdin_url: string
+  linkedin_url: string
   linkedin_text: string
   title: string;
   info: string;
