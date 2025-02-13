@@ -29,7 +29,7 @@ const navItems = [
   class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
 >
   <nav
-    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
+    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center dark:bg-gray-800/90 bg-white/50 shadow-lg backdrop-blur ring-1 ring-white/10"
   >
     {
       navItems.map((link) => (
@@ -49,25 +49,6 @@ const navItems = [
   document.addEventListener("astro:page-load", () => {
     const sections = document.querySelectorAll("section");
     const navItems = document.querySelectorAll("header nav a");
-    const nav = document.querySelector("header nav"); // Seleccionamos el nav
-
-    const updateNavClasses = (isScrolled: boolean) => {
-      nav?.classList.toggle("dark:bg-gray-800/90", isScrolled);
-      nav?.classList.toggle("bg-white/50", isScrolled);
-      nav?.classList.toggle("shadow-lg", isScrolled);
-      nav?.classList.toggle("backdrop-blur", isScrolled);
-      nav?.classList.toggle("ring-1", isScrolled);
-      nav?.classList.toggle("ring-white/10", isScrolled);
-    };
-
-    const handleScroll = () => {
-      requestAnimationFrame(() => {
-        const isScrolled = window.scrollY > 50;
-        updateNavClasses(isScrolled);
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll);
 
     const callback = (entries: any[]) => {
       entries.forEach((entry) => {
