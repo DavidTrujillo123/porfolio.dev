@@ -7,8 +7,8 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   integrations: [robotsTxt()],
-  site: 'https://porfolio.dev/',
-
+  site: 'https://porfolio-dev-drab.vercel.app/',
+  output: "server",
   vite: {
     plugins: [tailwindcss()]
   }
