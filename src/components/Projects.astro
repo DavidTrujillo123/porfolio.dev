@@ -1,28 +1,9 @@
 ---
 import GitHub from "./icons/GitHub.astro"
-import NextJS from "./icons/NextJS.astro"
-import Tailwind from "./icons/Tailwind.astro"
 import Link from "./icons/Link.astro"
 import LinkButton from "./LinkButton.astro"
-import AstroIcon from "./icons/AstroIcon.astro"
+import { TAGS } from "./componetCosmic/utils/IconsCosmic"
 
-const TAGS = {
-  NEXT: {
-    name: "Next.js",
-    class: "bg-black text-white",
-    icon: NextJS,
-  },
-  TAILWIND: {
-    name: "Tailwind CSS",
-    class: "bg-[#003159] text-white",
-    icon: Tailwind,
-  },
-  ASTROICON: {
-    name: "Astro",
-    class: "bg-[#003159] text-white",
-    icon: AstroIcon
-  }
-}
 const PROJECTS = [
   {
     title: "SVGL - A beautiful library with SVG logos",
@@ -31,7 +12,7 @@ const PROJECTS = [
     link: "https://svgl.vercel.app/",
     github: "https://github.com/pheralb/svgl",
     image: "/projects/svgl.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND],
+    tags: [TAGS.java],
   },
   {
     title: "AdventJS - Retos de programación con JavaScript y TypeScript",
@@ -39,7 +20,7 @@ const PROJECTS = [
       "Plataforma gratuita con retos de programación. Más de 1 millón de visitas en un mes. +50K retos completados. Creada desde cero con Next.js, React y Tailwind CSS.",
     link: "https://adventjs.dev",
     image: "/projects/adventjs.webp",
-    tags: [TAGS.NEXT, TAGS.TAILWIND, TAGS.ASTROICON],
+    tags: [TAGS.java, TAGS.laravel],
   },
 ]
 ---
