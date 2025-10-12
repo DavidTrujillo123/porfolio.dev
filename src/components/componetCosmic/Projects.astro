@@ -21,11 +21,11 @@ const data = list_projects.map(({ metadata }: any) => {
 });
 ---
 
-<div class="flex flex-col gap-y-16">
+<div class="flex flex-col gap-y-16 gsap-projects-list overflow-hidden">
   {
     data.map(({ title, description, link, github, image, tags }) => (
       <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
-        <div class="w-full md:w-1/2">
+        <div class="w-full md:w-1/2 gsap-img-projects">
           <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
             <Image
               class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105"
@@ -39,7 +39,7 @@ const data = list_projects.map(({ metadata }: any) => {
           </div>
         </div>
 
-        <div class="w-full md:w-1/2 md:max-w-lg">
+        <div class="gsap-text-projects w-full md:w-1/2 md:max-w-lg">
           <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">
             {title}
           </h3>
@@ -79,3 +79,34 @@ const data = list_projects.map(({ metadata }: any) => {
     ))
   }
 </div>
+
+<script>
+  import {gsap} from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  document.addEventListener("DOMContentLoaded", (event) => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const tlProjects = gsap.timeline({
+      defaults: {
+        autoAlpha: 0,
+        stagger: 0.3,
+        ease: 'power2.out'
+      },
+      scrollTrigger: {
+        trigger: ".gsap-projects-list",
+        scrub: 0.5,
+        start: "top-=400 center",
+        end: "bottom-=300 center",
+      }
+    });
+
+    tlProjects
+    .from(".gsap-img-projects", {
+      x: -200,
+    })
+    .from(".gsap-text-projects", {
+      x: 200,
+    }, '<');
+  });
+</script>
