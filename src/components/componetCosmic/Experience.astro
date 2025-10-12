@@ -1,13 +1,12 @@
 ---
-import ExperienceItem from "@/components/ExperienceItem.astro"
-import type {ExperienceItemProps} from "@/components/componetCosmic/utils/CosmicTypes"
+import ExperienceItem from "@/components/ExperienceItem.astro";
+import type { ExperienceItemProps } from "@/components/componetCosmic/utils/CosmicTypes";
 
-
-interface Props{
-  experiences: ExperienceItemProps[]
+interface Props {
+  experiences: ExperienceItemProps[];
 }
 
-const {experiences} = Astro.props
+const { experiences } = Astro.props;
 ---
 
 <ol class="relative mt-16 gsap-experience-list overflow-hidden">
@@ -21,23 +20,34 @@ const {experiences} = Astro.props
 </ol>
 
 <script>
-  import {gsap} from "gsap";
+  import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
 
   document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(ScrollTrigger);
 
-    gsap.from(".gsap-experience-list > li", {
-      x:100,
-      autoAlpha: 0,
-      stagger: 0.2,
+    const tlExperience = gsap.timeline({
+      defaults: {
+        ease: "power2.inOut",
+        stagger: 0.3,
+      },
       scrollTrigger: {
         trigger: ".gsap-experience-list",
-        start: "top-=300 center",
+        start: "top bottom",
         end: "center center",
         toggleActions: "play none none reverse",
         scrub: 0.5,
-      }
-    })
+      },
+    });
+
+    tlExperience
+    .from(".gsap-experience-list > li", {
+      xPercent: 100,
+      autoAlpha: 0,
+    }, '<0.5')
+    .from(".gsap-experience-item-circle", { //Clase del circulo
+      y: 50,
+      //stagger: 0.2
+    });
   });
 </script>

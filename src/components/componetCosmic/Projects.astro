@@ -21,7 +21,7 @@ const data = list_projects.map(({ metadata }: any) => {
 });
 ---
 
-<div class="flex flex-col gap-y-16 gsap-projects-list overflow-hidden">
+<div class="flex flex-col gap-y-16 gsap-projects-list overflow-hidden md:overflow-visible">
   {
     data.map(({ title, description, link, github, image, tags }) => (
       <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
@@ -91,13 +91,14 @@ const data = list_projects.map(({ metadata }: any) => {
       defaults: {
         autoAlpha: 0,
         stagger: 0.3,
-        ease: 'power2.out'
+        ease: 'power2.inOut'
       },
       scrollTrigger: {
         trigger: ".gsap-projects-list",
         scrub: 0.5,
-        start: "top-=400 center",
-        end: "bottom-=300 center",
+        start: "top-=200 bottom",
+        end: "bottom-=200 center",
+        markers: true
       }
     });
 
