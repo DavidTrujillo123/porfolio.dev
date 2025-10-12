@@ -10,7 +10,7 @@ interface Props{
 const {experiences} = Astro.props
 ---
 
-<ol class="relative mt-16">
+<ol class="relative mt-16 gsap-experience-list overflow-hidden">
   {
     experiences.map((experience) => (
       <li class="">
@@ -19,3 +19,25 @@ const {experiences} = Astro.props
     ))
   }
 </ol>
+
+<script>
+  import {gsap} from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  document.addEventListener("DOMContentLoaded", (event) => {
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from(".gsap-experience-list > li", {
+      x:100,
+      autoAlpha: 0,
+      stagger: 0.2,
+      scrollTrigger: {
+        trigger: ".gsap-experience-list",
+        start: "top-=300 center",
+        end: "center center",
+        toggleActions: "play none none reverse",
+        scrub: 0.5,
+      }
+    })
+  });
+</script>
