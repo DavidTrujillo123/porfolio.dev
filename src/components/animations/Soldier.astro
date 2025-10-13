@@ -1,10 +1,13 @@
-<div class="fixed -bottom-24 z-20 flex items-center justify-center overflow-hidden w-full">
-  <div class="gsap-container-sprite w-full">
+<div
+  class:list={["flex items-center justify-center overflow-hidden md:overflow-visible cursor-pointer w-[100px] h-[100px]", Astro.props.class]}
+>
+  <div class="gsap-container-sprite h-full w-full">
     <div
       id="sprite"
-      class="w-64 h-64 bg-cover bg-no-repeat"
+      class="h-full w-full bg-cover bg-no-repeat scale-[300%] drop-shadow-lg drop-shadow-amber-900 dark:drop-shadow-indigo-500/50 "
       style="background-image: url('/sprites/Soldier_Idle.png'); background-position: 0 0;"
-    ></div>
+    >
+    </div>
   </div>
 </div>
 
@@ -13,45 +16,40 @@
 
   document.addEventListener("DOMContentLoaded", () => {
     const sprite = document.getElementById("sprite");
-    const frameWidth = 256;
-    const speed = 200;
+    if (!sprite) return;
+
+    const frameWidth = 100;
 
     let currentAnimation: any = null;
-    let animationFrameId: number = 0;
-    let currentX = 0;
-    let direction = 1; // 1 derecha, -1 izquierda
-    let state = "idle"; // idle, walking, attacking
-
-    const spriteWidth = 256;
-    const maxX = window.innerWidth - spriteWidth;
-    const minX = 0;
+    let state = "idle"; // idle, walk, attack
 
     const animations = {
       idle: {
         frames: 6,
-        image: '/sprites/Soldier_Idle.png',
-        fps: 6
+        image: "/sprites/Soldier_Idle.png",
+        fps: 6,
       },
       walk: {
         frames: 8,
-        image: '/sprites/Soldier_Walk.png',
-        fps: 6
+        image: "/sprites/Soldier_Walk.png",
+        fps: 6,
       },
       attack: {
         frames: 8,
-        image: '/sprites/Soldier_Attack03.png',
-        fps: 8
-      }
+        image: "/sprites/Soldier_Attack03.png",
+        fps: 8,
+      },
     };
 
-    
     function playAnimation(animName: keyof typeof animations) {
       if (currentAnimation) {
         currentAnimation.kill();
       }
-      if(sprite == null) return;
 
       const anim = animations[animName];
+
+      if (!sprite) return;
+
       sprite.style.backgroundImage = `url('${anim.image}')`;
       gsap.set(sprite, { backgroundPosition: "0 0" });
 
@@ -59,80 +57,27 @@
         backgroundPosition: `-${frameWidth * (anim.frames - 1)}px 0px`,
         ease: "steps(" + (anim.frames - 1) + ")",
         duration: anim.frames / anim.fps,
-        repeat: animName === "attack" ? 0 : -1,
-        onComplete: () => {
-          if (animName === "attack") {
-            console.log("Attack complete, switching to walking");
-            setState("walk");
-          }
-        }
+        repeat: -1, // Todas se repiten infinitamente
       });
     }
 
     function setState(newState: keyof typeof animations) {
-      console.log("Setting state to:", newState);
       state = newState;
       playAnimation(newState);
-
-      if (newState === "walk") {
-        if (animationFrameId) {
-          cancelAnimationFrame(animationFrameId);
-        }
-        lastTime = performance.now();
-        animationFrameId = requestAnimationFrame(moveLoop);
-        console.log("Started move loop");
-      } else {
-        if (animationFrameId) {
-          cancelAnimationFrame(animationFrameId);
-          animationFrameId = 0;
-        }
-      }
     }
 
-    // Loop de movimiento
-    let lastTime = performance.now();
-    function moveLoop(currentTime: number) {
-      if (state !== "walk") {
-        console.log("Move loop stopped, state is:", state);
-        return;
-      }
-
-      const deltaTime = (currentTime - lastTime) / 1000;
-      lastTime = currentTime;
-
-      currentX += direction * speed * deltaTime;
-
-      // Voltear cuando llega a los límites
-      if (currentX >= maxX) {
-        currentX = maxX;
-        direction = -1;
-        gsap.set(sprite, { scaleX: -1 });
-      } else if (currentX <= minX) {
-        currentX = minX;
-        direction = 1;
-        gsap.set(sprite, { scaleX: 1 });
-      }
-
-      gsap.set(sprite, { x: currentX });
-      animationFrameId = requestAnimationFrame(moveLoop);
-    }
-
-    // Click para atacar
-    if(sprite == null) return;
+    // Click para cambiar estado: idle -> walk -> attack -> idle
     sprite.addEventListener("click", () => {
-      console.log("Click detected, current state:", state);
-      if (state !== "attack") {
+      if (state === "idle") {
+        setState("walk");
+      } else if (state === "walk") {
         setState("attack");
+      } else if (state === "attack") {
+        setState("idle");
       }
     });
 
-    // Secuencia inicial: idle 2 segundos, luego caminar
-    console.log("Starting idle animation");
+    // Iniciar con idle
     playAnimation("idle");
-    
-    setTimeout(() => {
-      console.log("2 seconds passed, starting walk");
-      setState("walk");
-    }, 2000);
   });
 </script>

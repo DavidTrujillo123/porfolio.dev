@@ -29,14 +29,14 @@ const { experiences } = Astro.props;
     const tlExperience = gsap.timeline({
       defaults: {
         ease: "power2.inOut",
-        stagger: 0.3,
+        stagger: 0.5,
       },
       scrollTrigger: {
         trigger: ".gsap-experience-list",
         start: "top bottom",
         end: "center center",
         toggleActions: "play none none reverse",
-        scrub: 0.5,
+        scrub: 0.3,
       },
     });
 

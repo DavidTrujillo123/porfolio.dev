@@ -4,6 +4,7 @@ import MailIcon from "@/components/icons/Mail.astro";
 import SocialPill from "@/components/SocialPill.astro";
 import type { HeroProps } from "@/components/componetCosmic/utils/CosmicTypes";
 import { socialIcons } from "@/components/componetCosmic/utils/IconsCosmic";
+import Soldier from "../animations/Soldier.astro";
 
 interface Props {
   hero: HeroProps;
@@ -29,6 +30,7 @@ const { image_hero, linkedin_url, linkedin_text, social_pill, info, title } =
     >
       <Badge>{linkedin_text}</Badge>
     </a>
+    <Soldier />
   </div>
   <div class="relative">
     <h1
@@ -46,7 +48,7 @@ const { image_hero, linkedin_url, linkedin_text, social_pill, info, title } =
       social_pill.map((social) => {
         const IconComponent = socialIcons[social.icon.value] || MailIcon;
         return (
-          <SocialPill href={social.url} >
+          <SocialPill href={social.url}>
             <IconComponent class="size-4" />
             {social.text}
           </SocialPill>
@@ -55,14 +57,14 @@ const { image_hero, linkedin_url, linkedin_text, social_pill, info, title } =
     }
   </nav>
 </div>
+
 <script>
   import { gsap } from "gsap";
   import { SplitText } from "gsap/SplitText";
-  
+
   //If use astro:page-load, the animation does not work with SSR
   //document.addEventListener("astro:page-load", (event) => {
   document.addEventListener("DOMContentLoaded", (event) => {
-
     gsap.registerPlugin(SplitText);
 
     const titleText = SplitText.create(".gsap-title", {
@@ -74,7 +76,7 @@ const { image_hero, linkedin_url, linkedin_text, social_pill, info, title } =
     const linesInfoText = SplitText.create(".gsap-text-info", {
       type: "lines",
       mask: "lines",
-    })
+    });
 
     //Animacion imagen y badge
     const tl = gsap.timeline({
@@ -87,33 +89,50 @@ const { image_hero, linkedin_url, linkedin_text, social_pill, info, title } =
 
     //const btns = document.querySelectorAll('.gsap-btns-social>a');
 
-    tl
-    .to(".gsap-img", {
-      borderRadius: "50%",
-    }, '<')
-    .to(".gsap-badge", {
-      width: "auto",
-    }, '<')
-    .from(titleText.words, {  
-      y: 100,
-      autoAlpha: 0,
-      stagger: 0.2,
-    }, '<')
-    .from(linesInfoText.lines, {  
-      y: 100,
-      autoAlpha: 0,
-      stagger: 0.3,
-    }, '<')
-    .fromTo('.gsap-btns-social > a', 
+    tl.to(
+      ".gsap-img",
       {
-        opacity: 0,
-        //x: 100
+        borderRadius: "50%",
       },
-      {
-        opacity: 1,
-        //x: 0,
-        stagger: 0.2,
-      }, '<0.5'
-    );    
+      "<"
+    )
+      .to(
+        ".gsap-badge",
+        {
+          width: "auto",
+        },
+        "<"
+      )
+      .from(
+        titleText.words,
+        {
+          y: 100,
+          autoAlpha: 0,
+          stagger: 0.2,
+        },
+        "<"
+      )
+      .from(
+        linesInfoText.lines,
+        {
+          y: 100,
+          autoAlpha: 0,
+          stagger: 0.3,
+        },
+        "<"
+      )
+      .fromTo(
+        ".gsap-btns-social > a",
+        {
+          opacity: 0,
+          //x: 100
+        },
+        {
+          opacity: 1,
+          //x: 0,
+          stagger: 0.2,
+        },
+        "<0.5"
+      );
   });
 </script>
