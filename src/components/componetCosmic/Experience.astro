@@ -29,14 +29,14 @@ const { experiences } = Astro.props;
     const tlExperience = gsap.timeline({
       defaults: {
         ease: "power2.inOut",
-        stagger: 0.5,
+        stagger: 0.3,
       },
       scrollTrigger: {
         trigger: ".gsap-experience-list",
         start: "top bottom",
         end: "center center",
         toggleActions: "play none none reverse",
-        scrub: 0.3,
+        scrub: 0.5,
       },
     });
 
@@ -44,10 +44,10 @@ const { experiences } = Astro.props;
     .from(".gsap-experience-list > li", {
       xPercent: 100,
       autoAlpha: 0,
-    }, '<0.5')
+    })
     .from(".gsap-experience-item-circle", { //Clase del circulo
       y: 50,
       //stagger: 0.2
-    });
+    }, '<0.5');
   });
 </script>
