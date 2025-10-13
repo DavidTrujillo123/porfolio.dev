@@ -22,22 +22,26 @@ const aboutme = data.metadata.about_me;
 
 <Layout
   title="Porfolio de David - Desarrollador y Programador Web"
-  description="Contrata a midudev para crear tu aplicación web, móvil o de escritorio. Desarrollador Web y Gamer. Arquitectura y código limpio."
+  description="Contrata a David para crear tu aplicación web, móvil o de escritorio. Desarrollador Web y Gamer. Arquitectura y código limpio."
 >
   <main class="px-4">
     <SectionContainer class="py-16 md:py-36">
       <Hero hero={heroData} />
     </SectionContainer>
+
+    <div class="space-y-24">
+      <ExperienceSection
+        title={experience.title}
+        experience={experience.list}
+      />
+
+      <ProjectsSection title={projects.title} list_projects={projectsList} />
+
+      <AboutSection
+        title={aboutme.title}
+        content={aboutme.content}
+        image={aboutme.image}
+      />
+    </div>
   </main>
-  <div class="space-y-24 px-4">
-    <ExperienceSection title={experience.title} experience={experience.list} />
-
-    <ProjectsSection title={projects.title} list_projects={projectsList} />
-
-    <AboutSection
-      title={aboutme.title}
-      content={aboutme.content}
-      image={aboutme.image}
-    />
-  </div>
 </Layout>
