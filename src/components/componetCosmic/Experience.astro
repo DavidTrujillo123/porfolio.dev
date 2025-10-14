@@ -9,7 +9,9 @@ interface Props {
 const { experiences } = Astro.props;
 ---
 
-<ol class="relative mt-16 gsap-experience-list overflow-hidden">
+<ol
+  class="relative mt-16 gsap-experience-list overflow-hidden"
+>
   {
     experiences.map((experience) => (
       <li class="">
@@ -41,13 +43,17 @@ const { experiences } = Astro.props;
     });
 
     tlExperience
-    .from(".gsap-experience-list > li", {
-      xPercent: 100,
-      autoAlpha: 0,
-    })
-    .from(".gsap-experience-item-circle", { //Clase del circulo
-      y: 50,
-      //stagger: 0.2
-    }, '<0.5');
+      .from(".gsap-experience-list > li", {
+        xPercent: 100,
+        autoAlpha: 0,
+      })
+      .from(
+        ".gsap-experience-item-circle",
+        {
+          //Clase del circulo
+          y: 50,
+        },
+        "<0.5"
+      );
   });
 </script>

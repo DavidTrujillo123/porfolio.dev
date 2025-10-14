@@ -4,14 +4,11 @@ import "@/styles/global.css";
 
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { ClientRouter } from "astro:transitions";
-import Soldier from "@/components/animations/Soldier.astro";
 
 interface Props {
   title: string;
   description: string;
 }
-
 const { description, title } = Astro.props;
 ---
 
@@ -24,93 +21,125 @@ const { description, title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <ClientRouter />
   </head>
 
-  <body class="relative text-black dark:text-white">
+  <body class="text-black dark:text-white">
+    <!-- Fondo fijo detrás -->
     <div
-      class="inset-0 -z-10 h-screen fixed w-full items-center px-5 py-24 bg-gray-50 dark:bg-gray-950 animate-gradient
+      class="fixed inset-0 -z-10 h-screen w-full bg-gray-50 dark:bg-gray-950 animate-gradient
       bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(217,216,255,0.5),rgba(255,255,255,0.9))]
       dark:[background:radial-gradient(125%_125%_at_50%_10%,#030712_40%,#63e_100%)]"
     >
     </div>
+
+    <!-- Header fuera del smoother -->
     <Header />
-    <slot />
-    <Footer />
+
+    <div id="smooth-wrapper">
+      <div id="smooth-content" class="relative pt-16">
+        <slot />
+        <Footer />
+      </div>
+    </div>
+
+    <script>
+      import gsap from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+      import { ScrollSmoother } from "gsap/ScrollSmoother";
+
+      gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+
+      const smoother = ScrollSmoother.create({
+        wrapper: "#smooth-wrapper",
+        content: "#smooth-content",
+        smooth: 2,
+        effects: true,
+        smoothTouch: 0.1,
+      });
+
+      const header = document.querySelector(".header-list") as HTMLElement;
+
+      const offset = () => (header?.offsetHeight ?? 0) + 8; // +8px por margen
+
+      document.addEventListener("click", (event) => {
+        const element = event.target as HTMLElement;
+
+        if (element.classList.contains("header-link")) {
+          const hash = element.getAttribute("data-scrollto");
+
+          if (!hash || hash === "#") return;
+
+          const target = document.querySelector(hash);
+          if (!target) return;
+
+          event.preventDefault();
+
+          gsap.to(smoother, {
+            scrollTop: smoother.offset(target, "top top+=" + offset()),
+            duration: 1,
+            ease: 'back.out'
+          });
+
+          history.replaceState(null, "", hash);
+        }
+      });
+
+      
+      const sections = Array.from(
+        document.querySelectorAll<HTMLElement>("section[id]")
+      );
+      const navLinks = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>("header nav a[aria-label]")
+      );
+
+      const linkById = new Map<string, HTMLAnchorElement>(
+        navLinks.map((a) => [a.getAttribute("aria-label")!, a])
+      );
+
+      let activeId: string | null = null;
+      const setActive = (id: string) => {
+        if (activeId === id) return;
+
+        if (activeId) {
+          const prev = linkById.get(activeId);
+          if (prev) {
+            prev.classList.remove("text-blue-500", "pointer-events-none");
+          }
+        }
+
+        const next = linkById.get(id);
+        if (next) {
+          next.classList.add("text-blue-500", "pointer-events-none");
+        }
+
+        activeId = id;
+      };
+
+      
+      sections.forEach((sec) => {
+        ScrollTrigger.create({
+          trigger: sec,
+          start: "top center",
+          end: "bottom center",
+          onEnter: () => setActive(sec.id),
+          onEnterBack: () => setActive(sec.id),
+        });
+      });
+    </script>
+
     <style is:global>
       :root {
         color-scheme: light dark;
       }
-
       html {
         font-family: "Onest Variable", system-ui, sans-serif;
-        scroll-behavior: smooth;
       }
-
       body {
-        color: rgba(17, 17, 17, 0.9);
-        display: flex;
-        flex-direction: column;
         min-height: 100vh;
-        overscroll-behavior: none;
       }
-
-      @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto;
-        }
-      }
-
-      @media (prefers-color-scheme: dark) {
-        body {
-          color: rgba(255, 255, 255, 0.9);
-        }
-      }
-
-      #header-nav {
-        animation: blur linear both 0.5s;
-        animation-timeline: scroll();
-        animation-range: 0 500px;
-      }
-
-      @keyframes blur {
-        to {
-          backdrop-filter: blur(20px);
-          border-width: 1px;
-          border-color: rgba(0, 0, 0);
-          padding: 0.25rem 0.75rem;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          background-color: rgb(229, 229, 229);
-          border-radius: 9999px;
-        }
-      }
-
-      @media (prefers-color-scheme: dark) {
-        @keyframes blur {
-          from {
-            border: 0px;
-          }
-          to {
-            box-shadow:
-              0px 5px 50px -5px rgba(0, 0, 0, 0.1),
-              0px 0px 0 1px rgba(0, 0, 0, 0.3);
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(20px);
-            border-width: 1px;
-            border-color: rgba(0, 0, 0);
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
-            padding-top: 0.25rem;
-            padding-bottom: 0.25rem;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 9999px;
-          }
-        }
+      .animate-gradient {
+        background-size: 150% 150%;
+        animation: gradientMove 6s ease-in-out infinite alternate;
       }
       @keyframes gradientMove {
         0% {
@@ -120,12 +149,6 @@ const { description, title } = Astro.props;
           background-position: 50% 100%;
         }
       }
-
-      .animate-gradient {
-        background-size: 150% 150%;
-        animation: gradientMove 6s ease-in-out infinite alternate;
-      }
     </style>
   </body>
 </html>
-

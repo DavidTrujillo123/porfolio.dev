@@ -67,72 +67,74 @@ const { image_hero, linkedin_url, linkedin_text, social_pill, info, title } =
   document.addEventListener("DOMContentLoaded", (event) => {
     gsap.registerPlugin(SplitText);
 
-    const titleText = SplitText.create(".gsap-title", {
-      type: "words",
-      mask: "words",
-      wordsClass: "mb-1",
-    });
+    document.fonts.ready.then(() => {
+      const titleText = SplitText.create(".gsap-title", {
+        type: "words",
+        mask: "words",
+        wordsClass: "mb-1",
+      });
 
-    const linesInfoText = SplitText.create(".gsap-text-info", {
-      type: "lines",
-      mask: "lines",
-    });
+      const linesInfoText = SplitText.create(".gsap-text-info", {
+        type: "lines",
+        mask: "lines",
+      });
 
-    //Animacion imagen y badge
-    const tl = gsap.timeline({
-      defaults: {
-        opacity: 1,
-        duration: 1,
-        ease: "power2.out",
-      },
-    });
-
-    //const btns = document.querySelectorAll('.gsap-btns-social>a');
-
-    tl.to(
-      ".gsap-img",
-      {
-        borderRadius: "50%",
-      },
-      "<"
-    )
-      .to(
-        ".gsap-badge",
-        {
-          width: "auto",
-        },
-        "<"
-      )
-      .from(
-        titleText.words,
-        {
-          y: 100,
-          autoAlpha: 0,
-          stagger: 0.2,
-        },
-        "<"
-      )
-      .from(
-        linesInfoText.lines,
-        {
-          y: 100,
-          autoAlpha: 0,
-          stagger: 0.3,
-        },
-        "<"
-      )
-      .fromTo(
-        ".gsap-btns-social > a",
-        {
-          opacity: 0,
-          //x: 100
-        },
-        {
+      //Animacion imagen y badge
+      const tl = gsap.timeline({
+        defaults: {
           opacity: 1,
-          //x: 0,
-          stagger: 0.2,
+          duration: 1,
+          ease: "power2.out",
         },
-        "<0.5"
-      );
+      });
+
+      //const btns = document.querySelectorAll('.gsap-btns-social>a');
+
+      tl.to(
+        ".gsap-img",
+        {
+          borderRadius: "50%",
+        },
+        "<"
+      )
+        .to(
+          ".gsap-badge",
+          {
+            width: "auto",
+          },
+          "<"
+        )
+        .from(
+          titleText.words,
+          {
+            y: 100,
+            autoAlpha: 0,
+            stagger: 0.2,
+          },
+          "<"
+        )
+        .from(
+          linesInfoText.lines,
+          {
+            y: 100,
+            autoAlpha: 0,
+            stagger: 0.3,
+          },
+          "<"
+        )
+        .fromTo(
+          ".gsap-btns-social > a",
+          {
+            opacity: 0,
+            //x: 100
+          },
+          {
+            opacity: 1,
+            //x: 0,
+            stagger: 0.2,
+          },
+          "<0.5"
+        );
+    });
   });
 </script>
