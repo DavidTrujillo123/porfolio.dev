@@ -74,17 +74,22 @@ const { description, title } = Astro.props;
 
           event.preventDefault();
 
+          let targetScroll = smoother.offset(target, `top top+=${offset()}`);
+
+          const maxScroll = document.body.scrollHeight - window.innerHeight;
+          
+          targetScroll = Math.min(targetScroll, maxScroll);
+
           gsap.to(smoother, {
-            scrollTop: smoother.offset(target, "top top+=" + offset()),
+            scrollTop: targetScroll,
             duration: 1,
-            ease: 'back.out'
+            ease: "back.out",
           });
 
           history.replaceState(null, "", hash);
         }
       });
 
-      
       const sections = Array.from(
         document.querySelectorAll<HTMLElement>("section[id]")
       );
@@ -115,7 +120,6 @@ const { description, title } = Astro.props;
         activeId = id;
       };
 
-      
       sections.forEach((sec) => {
         ScrollTrigger.create({
           trigger: sec,
